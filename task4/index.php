@@ -3,42 +3,37 @@
 /**
  * Set price by color discount
  *
- * @param Database $db
  * @param array $colors
  * @return bool
  */
 
-function setPriceByColor(Database $db, array $colors) : bool
+function setPriceByColor(array $colors) : bool
 {
     if (empty($colors)) {
         return false;
     }
 
-    $db->query('
-        CREATE TEMPORARY TABLE `tmp_color` (
-            `color` tinytext NOT NULL,
-            `discount_ratio` FLOAT NOT NULL DEFAULT 0
-        ) ENGINE=MyISAM;
-    ')->execute();
-
-    $insert = "INSERT INTO `tmp_color` (`color`, `discount_ratio`) VALUES";
-    $values = [];
+    $names = [];
+    $insert = "";
 
     foreach ($colors as $color) {
+        if (!in_array($color['name'], $names)) {
+            $names[] = '"' . $color['name'] . '"';
+        }
         $discountRatio = 1 - $color['discount'] / 100;
-        $values[] = '("' . $color['name'] . '", ' . $discountRatio  . ')';
+        $insert .= 'WHEN color = "' . $color['name'] . '" THEN price * ' . $discountRatio . ' ';
     }
 
-    $insert .= implode(',', $values);
-    $db->query($insert)->execute();
+    $names = implode(",", $names);
 
-    $db->query('
-        UPDATE `products`
-        LEFT JOIN `tmp_color` ON (tmp_color.color = products.color)
-        SET products.price = products.price * tmp_color.discount_ratio;
+    Yii::$app->getDb()->createCommand('
+        UPDATE 
+            products 
+        SET `price` = 
+            CASE ' . $insert . ' END 
+        WHERE 
+            color IN (' . $names . ')
     ')->execute();
-
-    $db->query('DROP TEMPORARY TABLE `tmp_color`;')->execute();
 
     return true;
 }
@@ -54,4 +49,4 @@ $colors = [
     ],
 ];
 
-setPriceByColor($database, $colors);
+setPriceByColor($colors);
