@@ -99,4 +99,4 @@ setPriceByColor($database, $colors);
 ## Миграции для Yii 2
 
 
-[Посмотреть >](https://github.com/aik27/boxberry/tree/master/task4/migration)
+[Посмотреть >](https://github.com/aik27/boxberry/tree/master/task4/migrations)

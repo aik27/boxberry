@@ -2,7 +2,6 @@
 
 use yii\db\Migration;
 
-
 class m211027_192906_create_table_products extends Migration
 {
     public function safeUp()

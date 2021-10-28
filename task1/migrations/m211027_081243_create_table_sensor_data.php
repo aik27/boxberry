@@ -2,9 +2,6 @@
 
 use yii\db\Migration;
 
-/**
- * Class m211027_081243_create_table_sensor_data
- */
 class m211027_081243_create_table_sensor_data extends Migration
 {
     public function safeUp()
