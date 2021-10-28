@@ -53,11 +53,10 @@ function setPriceByColor(Database $db, array $colors) : bool
     }
 
     $db->query('
-        CREATE TEMPORARY TABLE IF NOT EXISTS `tmp_color` (
+        CREATE TEMPORARY TABLE `tmp_color` (
             `color` tinytext NOT NULL,
             `discount_ratio` FLOAT NOT NULL DEFAULT 0
         ) ENGINE=MyISAM;
-        TRUNCATE TABLE `tmp_color`;
     ')->execute();
 
     $insert = "INSERT INTO `tmp_color` (`color`, `discount_ratio`) VALUES";
