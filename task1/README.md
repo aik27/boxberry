@@ -45,7 +45,7 @@ ALTER TABLE `sensor_data`
     ADD KEY `idx-sensor-data_created_at` (`created_at`);
 ```
 
-##Миграции для Yii 2
+## Миграции для Yii 2
 
 Миграции находятся в папке [migration](https://github.com/aik27/boxberry/tree/master/task1/migration). Они же вставляют данные для теста: ~4.3 миллиона записей (показания для 1000 пациентов за 30 дней). 
 
