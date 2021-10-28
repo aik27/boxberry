@@ -43,7 +43,7 @@ UNIQUE KEY `id` (`id`)
  *
  * @param Database $db
  * @param array $colors
- * @return boot
+ * @return bool
  */
 
 function setPriceByColor(Database $db, array $colors) : bool
